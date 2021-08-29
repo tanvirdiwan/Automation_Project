@@ -26,3 +26,13 @@ fi
 #Below code will tar the log files of apache2 and move into the s3-bucket.
 cd /var/log/apache2 && tar -cvf /tmp/$myname-httpd-logs-$timestamp.tar *.log
 aws s3 cp /tmp/ $s3_bucket  --recursive --exclude "*" --include "*.tar"
+
+#Below code will create the inventoryfile for bookkeeping if file does not exist.
+if [ ! -f /var/www/html/inventory.html ]; then
+	echo "Log Type  Time Created  Type  Size" >> /var/www/html/inventory.html
+fi
+fsize=`du -hs /tmp/$myname-httpd-logs-$timestamp.tar | cut -f 1`
+echo "httpd-logs $timestamp tar $fsize" >> /var/www/html/inventory.html
+
+#open my $ofh, ">inventory.html";
+
