@@ -28,6 +28,7 @@ cd /var/log/apache2 && tar -cvf /tmp/$myname-httpd-logs-$timestamp.tar *.log
 aws s3 cp /tmp/ $s3_bucket  --recursive --exclude "*" --include "*.tar"
 
 #Below code will create the inventoryfile for bookkeeping if file does not exist.
+size=$(sudo du -sh /tmp/${myname}-httpd-logs-${timestamp}.tar | awk '{print $1}')
 if [ -e /var/www/html/inventory.html ]
 then
 echo "<br>httpd-logs &nbsp;&nbsp;&nbsp; ${timestamp} &nbsp;&nbsp;&nbsp; tar &nbsp;&nbsp;&nbsp; ${size}" >> /var/www/html/inventory.html
