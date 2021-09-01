@@ -36,5 +36,12 @@ else
 echo "<b>Log Type &nbsp;&nbsp;&nbsp;&nbsp; Date Created &nbsp;&nbsp;&nbsp;&nbsp; Type &nbsp;&nbsp;&nbsp;&nbsp; Size</b><br>" > /var/www/html/inventory.html
 echo "<br>httpd-logs &nbsp;&nbsp;&nbsp; ${timestamp} &nbsp;&nbsp;&nbsp; tar &nbsp;&nbsp;&nbsp; ${size}" >> /var/www/html/inventory.html
 fi
-#open my $ofh, ">inventory.html";
 
+# check cron file is exist or not, if it is doesn't exist then create it
+# Note:- script will execute once in day at 12.30AM
+if  [ ! -f  /etc/cron.d/automation ]
+then
+	echo  "30 0 * * * \troot\t/root/Automation_Project/automation.sh" > /etc/cron.d/automation
+fi
+
+##-----Script End--------##
